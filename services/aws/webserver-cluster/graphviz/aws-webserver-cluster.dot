@@ -1,0 +1,96 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_autoscaling_group.front_cluster_autoescaling" [label = "aws_autoscaling_group.front_cluster_autoescaling", shape = "box"]
+		"[root] aws_launch_configuration.front_cluster" [label = "aws_launch_configuration.front_cluster", shape = "box"]
+		"[root] aws_lb.balancer" [label = "aws_lb.balancer", shape = "box"]
+		"[root] aws_lb_listener.http" [label = "aws_lb_listener.http", shape = "box"]
+		"[root] aws_lb_listener_rule.asg" [label = "aws_lb_listener_rule.asg", shape = "box"]
+		"[root] aws_lb_target_group.asg" [label = "aws_lb_target_group.asg", shape = "box"]
+		"[root] aws_security_group.alb" [label = "aws_security_group.alb", shape = "box"]
+		"[root] aws_security_group.instance" [label = "aws_security_group.instance", shape = "box"]
+		"[root] aws_security_group_rule.allow_all_outbound" [label = "aws_security_group_rule.allow_all_outbound", shape = "box"]
+		"[root] aws_security_group_rule.allow_http_inbound" [label = "aws_security_group_rule.allow_http_inbound", shape = "box"]
+		"[root] aws_security_group_rule.allow_instance_inbound" [label = "aws_security_group_rule.allow_instance_inbound", shape = "box"]
+		"[root] data.aws_availability_zones.all" [label = "data.aws_availability_zones.all", shape = "box"]
+		"[root] data.aws_subnet_ids.default" [label = "data.aws_subnet_ids.default", shape = "box"]
+		"[root] data.aws_vpc.default" [label = "data.aws_vpc.default", shape = "box"]
+		"[root] data.template_file.user_data" [label = "data.template_file.user_data", shape = "box"]
+		"[root] data.terraform_remote_state.db" [label = "data.terraform_remote_state.db", shape = "box"]
+		"[root] output.asg_name" [label = "output.asg_name", shape = "note"]
+		"[root] output.elb_dns_name" [label = "output.elb_dns_name", shape = "note"]
+		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] provider.template" [label = "provider.template", shape = "diamond"]
+		"[root] provider.terraform" [label = "provider.terraform", shape = "diamond"]
+		"[root] var.aws_region" [label = "var.aws_region", shape = "note"]
+		"[root] var.aws_state_bucket" [label = "var.aws_state_bucket", shape = "note"]
+		"[root] var.cluster_name" [label = "var.cluster_name", shape = "note"]
+		"[root] var.env" [label = "var.env", shape = "note"]
+		"[root] var.instance_image_id" [label = "var.instance_image_id", shape = "note"]
+		"[root] var.instance_server_port" [label = "var.instance_server_port", shape = "note"]
+		"[root] var.instance_type" [label = "var.instance_type", shape = "note"]
+		"[root] var.max_size" [label = "var.max_size", shape = "note"]
+		"[root] var.min_size" [label = "var.min_size", shape = "note"]
+		"[root] aws_autoscaling_group.front_cluster_autoescaling" -> "[root] aws_launch_configuration.front_cluster"
+		"[root] aws_autoscaling_group.front_cluster_autoescaling" -> "[root] aws_lb_target_group.asg"
+		"[root] aws_autoscaling_group.front_cluster_autoescaling" -> "[root] data.aws_subnet_ids.default"
+		"[root] aws_autoscaling_group.front_cluster_autoescaling" -> "[root] var.max_size"
+		"[root] aws_autoscaling_group.front_cluster_autoescaling" -> "[root] var.min_size"
+		"[root] aws_launch_configuration.front_cluster" -> "[root] aws_security_group.instance"
+		"[root] aws_launch_configuration.front_cluster" -> "[root] data.template_file.user_data"
+		"[root] aws_launch_configuration.front_cluster" -> "[root] var.instance_image_id"
+		"[root] aws_launch_configuration.front_cluster" -> "[root] var.instance_type"
+		"[root] aws_lb.balancer" -> "[root] aws_security_group.alb"
+		"[root] aws_lb.balancer" -> "[root] data.aws_subnet_ids.default"
+		"[root] aws_lb_listener.http" -> "[root] aws_lb.balancer"
+		"[root] aws_lb_listener_rule.asg" -> "[root] aws_lb_listener.http"
+		"[root] aws_lb_listener_rule.asg" -> "[root] aws_lb_target_group.asg"
+		"[root] aws_lb_target_group.asg" -> "[root] data.aws_vpc.default"
+		"[root] aws_lb_target_group.asg" -> "[root] var.cluster_name"
+		"[root] aws_lb_target_group.asg" -> "[root] var.env"
+		"[root] aws_lb_target_group.asg" -> "[root] var.instance_server_port"
+		"[root] aws_security_group.alb" -> "[root] provider.aws"
+		"[root] aws_security_group.alb" -> "[root] var.cluster_name"
+		"[root] aws_security_group.alb" -> "[root] var.env"
+		"[root] aws_security_group.instance" -> "[root] provider.aws"
+		"[root] aws_security_group.instance" -> "[root] var.cluster_name"
+		"[root] aws_security_group.instance" -> "[root] var.env"
+		"[root] aws_security_group_rule.allow_all_outbound" -> "[root] aws_security_group.alb"
+		"[root] aws_security_group_rule.allow_http_inbound" -> "[root] aws_security_group.alb"
+		"[root] aws_security_group_rule.allow_instance_inbound" -> "[root] aws_security_group.instance"
+		"[root] aws_security_group_rule.allow_instance_inbound" -> "[root] var.instance_server_port"
+		"[root] data.aws_availability_zones.all" -> "[root] provider.aws"
+		"[root] data.aws_subnet_ids.default" -> "[root] data.aws_vpc.default"
+		"[root] data.aws_vpc.default" -> "[root] provider.aws"
+		"[root] data.template_file.user_data" -> "[root] data.terraform_remote_state.db"
+		"[root] data.template_file.user_data" -> "[root] provider.template"
+		"[root] data.template_file.user_data" -> "[root] var.instance_server_port"
+		"[root] data.terraform_remote_state.db" -> "[root] provider.terraform"
+		"[root] data.terraform_remote_state.db" -> "[root] var.aws_region"
+		"[root] data.terraform_remote_state.db" -> "[root] var.aws_state_bucket"
+		"[root] data.terraform_remote_state.db" -> "[root] var.env"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_lb_listener_rule.asg"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_security_group_rule.allow_all_outbound"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_security_group_rule.allow_http_inbound"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_security_group_rule.allow_instance_inbound"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] data.aws_availability_zones.all"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.asg_name"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.elb_dns_name"
+		"[root] output.asg_name" -> "[root] aws_autoscaling_group.front_cluster_autoescaling"
+		"[root] output.elb_dns_name" -> "[root] aws_lb.balancer"
+		"[root] provider.aws (close)" -> "[root] aws_autoscaling_group.front_cluster_autoescaling"
+		"[root] provider.aws (close)" -> "[root] aws_lb_listener_rule.asg"
+		"[root] provider.aws (close)" -> "[root] aws_security_group_rule.allow_all_outbound"
+		"[root] provider.aws (close)" -> "[root] aws_security_group_rule.allow_http_inbound"
+		"[root] provider.aws (close)" -> "[root] aws_security_group_rule.allow_instance_inbound"
+		"[root] provider.aws (close)" -> "[root] data.aws_availability_zones.all"
+		"[root] provider.template (close)" -> "[root] data.template_file.user_data"
+		"[root] provider.terraform (close)" -> "[root] data.terraform_remote_state.db"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider.aws (close)"
+		"[root] root" -> "[root] provider.template (close)"
+		"[root] root" -> "[root] provider.terraform (close)"
+	}
+}
+
