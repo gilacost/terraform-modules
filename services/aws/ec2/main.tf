@@ -1,6 +1,5 @@
 locals {
-  region         = "eu-west-3a"
-  ssh_public_key = file("~/.ssh/id_aws.pub")
+  region = "eu-west-3a"
 }
 
 variable "ami_id" {
